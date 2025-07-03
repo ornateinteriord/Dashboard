@@ -1,7 +1,7 @@
-import React from 'react';
-import { User, Settings, LogOut, Home, Users, FileText } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from "react";
+import { User, Settings, LogOut, Home, Users, FileText } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface NavigationProps {
   isOpen: boolean;
@@ -15,47 +15,60 @@ export const Navigation: React.FC<NavigationProps> = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
-  const navItems = user?.role === 'admin' ? [
-    { icon: Home, label: 'Dashboard', path: '/admin' },
-    { icon: Users, label: 'Users', path: '/admin/users' },
-    { icon: FileText, label: 'Posts', path: '/admin/posts' },
-    { icon: Settings, label: 'Settings', path: '/admin/settings' }
-  ] : [
-    { icon: Home, label: 'Dashboard', path: '/dashboard' },
-    { icon: User, label: 'Profile', path: '/profile' },
-    { icon: Settings, label: 'Settings', path: '/settings' }
-  ];
+  const navItems =
+    user?.role === "admin"
+      ? [
+          { icon: Home, label: "Dashboard", path: "/admin" },
+          { icon: Users, label: "Users", path: "/admin/users" },
+          { icon: FileText, label: "Posts", path: "/admin/posts" },
+          { icon: Settings, label: "Settings", path: "/admin/settings" },
+        ]
+      : [
+          { icon: Home, label: "Dashboard", path: "/dashboard" },
+          { icon: User, label: "Profile", path: "/profile" },
+          { icon: Settings, label: "Settings", path: "/settings" },
+        ];
 
   return (
     <>
       {/* Mobile backdrop */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar - Always visible on medium+ screens, toggleable on mobile */}
-      <div className={`
+      <div
+        className={`
         fixed top-0 left-0 z-50 w-64 h-full bg-white shadow-xl border-r border-gray-200 
         transform transition-transform duration-300 ease-in-out
         md:translate-x-0 md:z-30
-        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-      `}>
+        ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+      `}
+      >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <User className="h-6 w-6 text-white" />
+          <div className="px-4 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0">
+            <div className="flex items-center space-x-2">
+              {" "}
+              {/* Reduced space between items */}
+              <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                {" "}
+                {/* Smaller icon container */}
+                <User className="h-4 w-4 text-white" /> {/* Smaller icon */}
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">Dashboard</h1>
-                <p className="text-sm text-blue-100 capitalize">{user?.role} Panel</p>
+                <h1 className="text-lg font-bold text-white">Dashboard</h1>{" "}
+                {/* Smaller text */}
+                <p className="text-xs text-blue-100 capitalize">
+                  {user?.role} Panel
+                </p>{" "}
+                {/* Smaller text */}
               </div>
             </div>
           </div>
@@ -65,7 +78,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isOpen, onClose }) => {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
+
               return (
                 <button
                   key={item.path}
@@ -75,13 +88,20 @@ export const Navigation: React.FC<NavigationProps> = ({ isOpen, onClose }) => {
                   }}
                   className={`
                     w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group
-                    ${isActive 
-                      ? 'bg-blue-50 text-blue-700 shadow-sm border-l-4 border-blue-600' 
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    ${
+                      isActive
+                        ? "bg-blue-50 text-blue-700 shadow-sm border-l-4 border-blue-600"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                     }
                   `}
                 >
-                  <Icon className={`h-5 w-5 transition-colors duration-200 ${isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'}`} />
+                  <Icon
+                    className={`h-5 w-5 transition-colors duration-200 ${
+                      isActive
+                        ? "text-blue-600"
+                        : "text-gray-500 group-hover:text-gray-700"
+                    }`}
+                  />
                   <span className="font-medium">{item.label}</span>
                 </button>
               );
@@ -92,12 +112,17 @@ export const Navigation: React.FC<NavigationProps> = ({ isOpen, onClose }) => {
           <div className="px-4 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
             <div className="flex items-center space-x-3 mb-4 p-3 bg-white rounded-xl shadow-sm">
               <img
-                src={user?.avatar || `https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1`}
+                src={
+                  user?.avatar ||
+                  `https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1`
+                }
                 alt={user?.name}
                 className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">
+                  {user?.name}
+                </p>
                 <p className="text-xs text-gray-500 truncate">{user?.email}</p>
               </div>
             </div>
