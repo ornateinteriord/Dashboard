@@ -25,6 +25,19 @@ export interface Post {
   author?: string;
 }
 
+export interface Article {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  readTime: number;
+  tags: string[];
+}
+
 export interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;

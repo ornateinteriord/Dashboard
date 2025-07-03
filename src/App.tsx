@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Login } from './pages/auth/Login';
 import { UserDashboard } from './pages/user/Dashboard';
+import { ArticleDetail } from './pages/user/ArticleDetail';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { PostsManagement } from './pages/admin/PostsManagement';
 import { UsersManagement } from './pages/admin/UsersManagement';
@@ -19,6 +20,12 @@ function App() {
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <UserDashboard />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/article/:id" element={
+            <ProtectedRoute>
+              <ArticleDetail />
             </ProtectedRoute>
           } />
           

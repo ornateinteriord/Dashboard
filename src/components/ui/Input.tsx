@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucideIcon} from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
 interface InputProps {
   type?: 'text' | 'email' | 'password' | 'number';
@@ -11,7 +11,7 @@ interface InputProps {
   error?: string;
   label?: string;
   className?: string;
-   required?: boolean;
+  required?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({

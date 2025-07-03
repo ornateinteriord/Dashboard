@@ -48,17 +48,17 @@ export const Navigation: React.FC<NavigationProps> = ({ isOpen, onClose }) => {
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="px-4 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0">
-  <div className="flex items-center space-x-2"> {/* Reduced space between items */}
-    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm"> {/* Smaller icon container */}
-      <User className="h-4 w-4 text-white" /> {/* Smaller icon */}
-    </div>
-    <div>
-      <h1 className="text-lg font-bold text-white">Dashboard</h1> {/* Smaller text */}
-      <p className="text-xs text-blue-100 capitalize">{user?.role} Panel</p> {/* Smaller text */}
-    </div>
-  </div>
-</div>
+          <div className="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-blue-700 flex-shrink-0">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <User className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">Dashboard</h1>
+                <p className="text-sm text-blue-100 capitalize">{user?.role} Panel</p>
+              </div>
+            </div>
+          </div>
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">

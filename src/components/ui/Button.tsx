@@ -1,9 +1,9 @@
 import React from 'react';
-import { LucideIcon,} from 'lucide-react';
+import { LucideIcon, } from 'lucide-react';
 
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  type?: "button" | "submit" | "reset";
+   type?: "button" | "submit" | "reset";
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;

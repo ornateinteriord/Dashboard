@@ -1,206 +1,138 @@
-import React from 'react';
-import { Card } from '../../components/ui/Card';
-import { Badge } from '../../components/ui/Badge';
-import { useAuth } from '../../context/AuthContext';
-import { Layout } from '../../components/layout/Layout';
-import { User, Mail, Phone, Globe, MapPin, MessageSquare, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { WebsiteLayout } from '../../components/website/WebsiteLayout';
+import { ArticleCard } from '../../components/website/ArticleCard';
+import { mockArticles } from '../../data/articles';
+import { TrendingUp, Users, BookOpen, Star } from 'lucide-react';
 
 export const UserDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  
+  const categories = ['All', 'Technology', 'Business', 'Lifestyle', 'Travel', 'Health'];
+  
+  const filteredArticles = selectedCategory === 'All' 
+    ? mockArticles 
+    : mockArticles.filter(article => article.category === selectedCategory);
+
+  const stats = [
+    { icon: BookOpen, label: 'Articles', value: '1,234', color: 'blue' },
+    { icon: Users, label: 'Writers', value: '89', color: 'green' },
+    { icon: TrendingUp, label: 'Views', value: '45.2K', color: 'purple' },
+    { icon: Star, label: 'Featured', value: '156', color: 'orange' }
+  ];
 
   return (
-    <Layout>
-      <div className="space-y-8">
-        {/* Welcome Section */}
-        <Card className="p-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
-          <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
-            <img
-              src={user?.avatar || `https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1`}
-              alt={user?.name}
-              className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
+    <WebsiteLayout>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Discover Amazing
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
+                Stories & Ideas
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+              Explore thought-provoking articles, connect with passionate writers, and dive deep into topics that inspire and educate.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+                Start Reading
+              </button>
+              <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
+                Join Community
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className={`w-16 h-16 bg-${stat.color}-100 rounded-full flex items-center justify-center mx-auto mb-4`}>
+                    <Icon className={`h-8 w-8 text-${stat.color}-600`} />
+                  </div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                  <div className="text-gray-600">{stat.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Articles Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Featured Articles
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover our most popular and trending content, carefully curated for you
+            </p>
+          </div>
+
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
+                  selectedCategory === category
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-white text-gray-700 border border-gray-300 hover:border-blue-300 hover:text-blue-600'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Articles Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredArticles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+
+          {/* Load More Button */}
+          <div className="text-center mt-12">
+            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
+              Load More Articles
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-16 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Stay Updated
+          </h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Get the latest articles and insights delivered directly to your inbox
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user?.name}!</h1>
-              <p className="text-gray-600 text-lg mb-3">Here's your dashboard overview</p>
-              <Badge variant="primary" className="text-sm px-3 py-1">
-                {user?.role}
-              </Badge>
-            </div>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
+              Subscribe
+            </button>
           </div>
-        </Card>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Profile Views</p>
-                <p className="text-3xl font-bold text-gray-900">1,234</p>
-                <p className="text-sm text-green-600 mt-1">+12% from last month</p>
-              </div>
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
-                <User className="h-7 w-7 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Messages</p>
-                <p className="text-3xl font-bold text-gray-900">45</p>
-                <p className="text-sm text-green-600 mt-1">+5 new today</p>
-              </div>
-              <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
-                <MessageSquare className="h-7 w-7 text-green-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Connections</p>
-                <p className="text-3xl font-bold text-gray-900">89</p>
-                <p className="text-sm text-green-600 mt-1">+3 this week</p>
-              </div>
-              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center">
-                <Users className="h-7 w-7 text-purple-600" />
-              </div>
-            </div>
-          </Card>
         </div>
-
-        {/* Profile Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Profile Information</h2>
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Mail className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Email</p>
-                  <p className="font-semibold text-gray-900">{user?.email}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Phone className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Phone</p>
-                  <p className="font-semibold text-gray-900">{user?.phone || 'Not provided'}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Globe className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Website</p>
-                  <p className="font-semibold text-gray-900">{user?.website || 'Not provided'}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <MapPin className="h-5 w-5 text-orange-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Location</p>
-                  <p className="font-semibold text-gray-900">
-                    {user?.address ? `${user.address.city}, ${user.address.zipcode}` : 'Not provided'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Recent Activity</h2>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="h-5 w-5 text-blue-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900">Profile updated</p>
-                  <p className="text-xs text-gray-500">2 hours ago</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <MessageSquare className="h-5 w-5 text-green-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900">New message received</p>
-                  <p className="text-xs text-gray-500">5 hours ago</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                  <Users className="h-5 w-5 text-purple-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900">Connected with team</p>
-                  <p className="text-xs text-gray-500">1 day ago</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Featured Content */}
-        <Card className="p-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Featured Content</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="relative rounded-xl overflow-hidden group cursor-pointer">
-              <img
-                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=1"
-                alt="Featured content"
-                className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="font-semibold text-lg mb-2">Project Management</h3>
-                <p className="text-sm opacity-90">Learn efficient project management techniques</p>
-              </div>
-            </div>
-            
-            <div className="relative rounded-xl overflow-hidden group cursor-pointer">
-              <img
-                src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=1"
-                alt="Featured content"
-                className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="font-semibold text-lg mb-2">Team Collaboration</h3>
-                <p className="text-sm opacity-90">Enhance your team's productivity</p>
-              </div>
-            </div>
-            
-            <div className="relative rounded-xl overflow-hidden group cursor-pointer">
-              <img
-                src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=1"
-                alt="Featured content"
-                className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="font-semibold text-lg mb-2">Data Analytics</h3>
-                <p className="text-sm opacity-90">Make data-driven decisions</p>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </Layout>
+      </section>
+    </WebsiteLayout>
   );
 };
